@@ -1,0 +1,14 @@
+query GetHeaderMenu {
+    menu(id: "header", idType: SLUG) {
+        slug
+        name
+        menuItems {
+            edges {
+                node {
+                    path
+                    label
+                }
+            }
+        }
+    }
+}
