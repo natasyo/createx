@@ -21,12 +21,16 @@ function PopularCategories() {
   }
   let count = 0;
 
-  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  const [innerWidth, setInnerWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 2,
+  );
   count = setCount(innerWidth);
-  window.addEventListener("resize", () => {
-    setInnerWidth(window.innerWidth);
-    count = setCount(innerWidth);
-  });
+  if (typeof window !== "undefined") {
+    window.addEventListener("resize", () => {
+      setInnerWidth(window.innerWidth);
+      count = setCount(innerWidth);
+    });
+  }
 
   const { data, loading } = useQuery(GetCategoriesDocument, {
     variables: {
