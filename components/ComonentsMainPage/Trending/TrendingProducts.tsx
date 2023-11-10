@@ -11,7 +11,7 @@ import { ProductsCarousel } from "@/components/Products/ProductsCarousel";
 import { Loading } from "@/components/Loading/Loading";
 
 function TrendingProducts() {
-  const { data, loading, error, called } = useQuery(GetProductsDocument, {
+  const { data, loading } = useQuery(GetProductsDocument, {
     variables: {
       first: 20,
       orderby: [{ field: ProductsOrderByEnum.Name, order: OrderEnum.Desc }],

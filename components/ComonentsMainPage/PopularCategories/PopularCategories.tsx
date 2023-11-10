@@ -20,14 +20,13 @@ function PopularCategories() {
     return 6;
   }
   let count = 0;
-  if (typeof window !== "undefined") {
-    const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+  count = setCount(innerWidth);
+  window.addEventListener("resize", () => {
+    setInnerWidth(window.innerWidth);
     count = setCount(innerWidth);
-    window.addEventListener("resize", (event) => {
-      setInnerWidth(window.innerWidth);
-      count = setCount(innerWidth);
-    });
-  }
+  });
 
   const { data, loading } = useQuery(GetCategoriesDocument, {
     variables: {

@@ -1,7 +1,6 @@
 // @flow
 import * as React from "react";
 import { TMenu } from "@/api";
-import { Loading } from "@/components/Loading/Loading";
 import Link from "next/link";
 type Props = {
   menuItems?: TMenu[];

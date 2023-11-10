@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Link from "next/link";
 
 import ArrivalsProducts from "@/components/ComonentsMainPage/Arrivals/ArrivalsProducts";

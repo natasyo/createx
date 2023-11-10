@@ -7,9 +7,7 @@ import { Loading } from "@/components/Loading/Loading";
 import Product, { ProductsType } from "@/components/Products/Product";
 import { ProductsCarousel } from "@/components/Products/ProductsCarousel";
 
-type Props = {};
-
-export function SaleProducts(props: Props) {
+export function SaleProducts() {
   const { data, loading } = useQuery(GetProductsDocument, {
     variables: {
       first: 15,

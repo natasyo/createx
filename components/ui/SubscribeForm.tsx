@@ -17,7 +17,7 @@ function Subscribe({
   classNameContainer,
   classNameInput,
 }: Props) {
-  const { data, loading } = useQuery(GetCategoriesDocument, {
+  const { data } = useQuery(GetCategoriesDocument, {
     variables: {
       parent: 15,
     },
