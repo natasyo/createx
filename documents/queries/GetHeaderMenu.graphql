@@ -1,12 +1,10 @@
-query GetHeaderMenu {
-    menu(id: "header", idType: SLUG) {
-        slug
-        name
+query GetHeaderMenu($id:ID!) {
+    menu(id: $id, idType: DATABASE_ID) {
         menuItems {
             edges {
                 node {
-                    path
                     label
+                    path
                 }
             }
         }

@@ -1,0 +1,25 @@
+query GetCategories($parent: Int, $first: Int, $order: OrderEnum , $orderby: TermObjectsConnectionOrderbyEnum, $childless: Boolean) {
+    productCategories(
+        where: {parent: $parent, order: $order, orderby: $orderby, childless: $childless}
+        first: $first
+    ) {
+        nodes {
+            slug
+            image {
+                altText
+                title
+                mediaItemUrl
+                mediaDetails {
+                    height
+                    width
+                }
+                slug
+                parentDatabaseId
+                guid
+            }
+            uri
+            name
+            id
+        }
+    }
+}

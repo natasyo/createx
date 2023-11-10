@@ -1,0 +1,31 @@
+query GetProducts($first: Int, $onSale: Boolean = false, $orderby: [ProductsOrderbyInput]) {
+    products(first: $first, where: {onSale: $onSale, orderby: $orderby}) {
+        nodes {
+            name
+            sku
+            slug
+            id
+            ... on SimpleProduct {
+                id
+                name
+                uri
+                price
+                salePrice
+            }
+            image {
+                mediaDetails {
+                    height
+                    width
+                }
+                guid
+                parent {
+                    node {
+                        id
+                    }
+                }
+            }
+            type
+            onSale
+        }
+    }
+}

@@ -1,9 +1,12 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import Header from "@/components/header/Header";
-
-const inter = Inter({ subsets: ["latin"] });
+import React from "react";
+import ReduxProvider from "@/store/ReduxProvider";
+import { Login } from "@/components/auth/Login";
+import { Register } from "@/components/auth/Register";
+import { ApolloWrapper } from "@/api/ApolloWrapper";
+import { Footer } from "@/components/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,9 +20,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        {children}
+      <body className={`font-body`}>
+        <ApolloWrapper>
+          <ReduxProvider>
+            <Header />
+            {children}
+            <Footer />
+            <Register />
+            <Login />
+          </ReduxProvider>
+        </ApolloWrapper>
       </body>
     </html>
   );

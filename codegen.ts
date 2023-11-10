@@ -1,8 +1,9 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
+import "dotenv/config";
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "http://taask.atwebpages.com/graphql",
+  schema: process.env.URL,
   documents: ["documents/**/*.graphql"],
   // ignoreNoDocuments: true,
   generates: {
@@ -10,6 +11,7 @@ const config: CodegenConfig = {
       preset: "client",
     },
   },
+  ignoreNoDocuments: true,
 };
 
 export default config;
