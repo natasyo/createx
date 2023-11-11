@@ -29,6 +29,7 @@ function Product({ product, className }: Props) {
             alt={product.image?.altText || product.title! || "Product"}
             height={product.image.mediaDetails?.height!}
             width={product.image.mediaDetails?.width!}
+            className={`h-full w-full container`}
           />
         ) : (
           <Image
@@ -36,6 +37,7 @@ function Product({ product, className }: Props) {
             alt={product.title || "No"}
             width={NoImage.width}
             height={NoImage.height}
+            className={`h-full w-full container`}
           />
         )}
       </div>
