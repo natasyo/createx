@@ -9,6 +9,7 @@ import {
 import Product, { ProductsType } from "@/components/Products/Product";
 import { ProductsCarousel } from "@/components/Products/ProductsCarousel";
 import { Loading } from "@/components/Loading/Loading";
+import product from "@/components/Products/Product";
 
 function TrendingProducts() {
   const { data, loading } = useQuery(GetProductsDocument, {
@@ -19,11 +20,13 @@ function TrendingProducts() {
     errorPolicy: "all",
   });
   if (loading) return <Loading />;
+  if (data) console.log(data.products);
   return (
     <ProductsCarousel>
       {data?.products &&
         data.products?.nodes?.map((product) => (
-          <Product product={product as ProductsType} key={product.id} />
+          <p key={product.id}>{product.slug}</p>
+          // <Product product={product as ProductsType} key={product.id} />
         ))}
     </ProductsCarousel>
   );
