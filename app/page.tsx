@@ -22,14 +22,14 @@ export default async function Home() {
 
       <PopularCategories />
 
-      {/*<Trending />*/}
-      {/*<Sale />*/}
-      {/*<AppMobile />*/}
-      {/*<Info />*/}
-      {/*<Instagram />*/}
-      {/*<Blog />*/}
-      {/*<Brands />*/}
-      {/*<Subscribe />*/}
+      <Trending />
+      <Sale />
+      <AppMobile />
+      <Info />
+      <Instagram />
+      <Blog />
+      <Brands />
+      <Subscribe />
     </div>
   );
 }
