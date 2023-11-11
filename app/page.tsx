@@ -15,10 +15,10 @@ import Subscribe from "@/components/ComonentsMainPage/Subscribe/Subscribe";
 export default async function Home() {
   return (
     <div>
-      {/*<Banner />*/}
-      {/*<Categories />*/}
-      {/*<NewArrivals />*/}
-      {/*<Advertising />*/}
+      <Banner />
+      <Categories />
+      <NewArrivals />
+      <Advertising />
 
       {/*<PopularCategories />*/}
 
