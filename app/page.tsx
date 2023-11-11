@@ -22,7 +22,7 @@ export default async function Home() {
 
       <PopularCategories />
 
-      {/*<Trending />*/}
+      <Trending />
       {/*<Sale />*/}
       <AppMobile />
       {/*<Info />*/}
