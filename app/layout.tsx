@@ -26,8 +26,8 @@ export default function RootLayout({
             <Header />
             {children}
             <Footer />
-            {/*<Register />*/}
-            {/*<Login />*/}
+            <Register />
+            <Login />
           </ReduxProvider>
         </ApolloWrapper>
       </body>
