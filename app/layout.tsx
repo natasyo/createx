@@ -21,13 +21,6 @@ export default function RootLayout({
   console.log(metadata);
   return (
     <html lang="en">
-      <head>
-        <title>sokdfdjkfklfdjfkl</title>
-        <meta
-          httpEquiv="Content-Security-Policy"
-          content="upgrade-insecure-requests"
-        />
-      </head>
       <body className={`font-body`}>
         <ApolloWrapper>
           <ReduxProvider>
