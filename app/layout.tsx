@@ -18,7 +18,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  console.log(metadata);
   return (
     <html lang="en">
       <body className={`font-body`}>

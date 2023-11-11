@@ -16,7 +16,7 @@ export function Category({ category }: Props) {
           <Image
             className={"w-full h-90.75 mb-4"}
             src={category.image?.mediaItemUrl}
-            alt={category.image.altText!}
+            alt={category.image.altText! || category.name!}
             height={category.image.mediaDetails?.height!}
             width={category.image.mediaDetails?.width!}
           />

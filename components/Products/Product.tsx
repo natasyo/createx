@@ -26,14 +26,14 @@ function Product({ product, className }: Props) {
         {product.image ? (
           <Image
             src={product.image.guid!}
-            alt={product.image?.altText || product.title!}
+            alt={product.image?.altText || product.title! || "Product"}
             height={product.image.mediaDetails?.height!}
             width={product.image.mediaDetails?.width!}
           />
         ) : (
           <Image
             src={NoImage.src}
-            alt={product.title || ""}
+            alt={product.title || "No"}
             width={NoImage.width}
             height={NoImage.height}
           />

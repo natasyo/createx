@@ -14,7 +14,6 @@ export function Button(props: Props) {
     return (
       <Link
         href={props.href}
-        type={props.type}
         onClick={props.onClick}
         className={`${
           props.className
