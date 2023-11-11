@@ -18,7 +18,7 @@ function PopularCategory({ category }: Props) {
         {category.image ? (
           <Image
             src={category.image.mediaItemUrl!}
-            alt={category.image.altText || category.name || "Category"}
+            alt={category.image.altText || category.name || "Category4"}
             height={category.image.mediaDetails?.height!}
             width={category.image.mediaDetails?.width!}
           />
