@@ -20,16 +20,16 @@ export default async function Home() {
       <NewArrivals />
       <Advertising />
 
-      {/*<PopularCategories />*/}
+      <PopularCategories />
 
-      {/*<Trending />*/}
-      {/*<Sale />*/}
-      {/*<AppMobile />*/}
-      {/*<Info />*/}
-      {/*<Instagram />*/}
-      {/*<Blog />*/}
-      {/*<Brands />*/}
-      {/*<Subscribe />*/}
+      <Trending />
+      <Sale />
+      <AppMobile />
+      <Info />
+      <Instagram />
+      <Blog />
+      <Brands />
+      <Subscribe />
     </div>
   );
 }
