@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={`font-body`}>
         <ApolloWrapper>
           <ReduxProvider>
-            {/*<Header />*/}
+            <Header />
             {children}
             <Footer />
             {/*<Register />*/}
