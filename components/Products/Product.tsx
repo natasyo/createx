@@ -5,6 +5,8 @@ import {
   VariableProduct,
 } from "@/generatesTypes/gql/graphql";
 import { Button } from "@/components/ui/Button";
+import NoImage from "@/public/no-image.jpg";
+import Image from "next/image";
 
 export type ProductsType = NonNullable<
   GetProductsQuery["products"]
@@ -20,12 +22,23 @@ function Product({ product, className }: Props) {
     <div
       className={`${className} mx-3.75 group transform-cpu hover:shadow-regular hover:bg-white`}
     >
-      <div
-        className={`h-90 lg:р-80 bg-100% bg-no-repeat bg-center mb-4`}
-        style={{
-          backgroundImage: `url(${product.image ? product.image?.guid : ""})`,
-        }}
-      ></div>
+      <div className={`h-90 lg:р-80 bg-100% bg-no-repeat bg-center mb-4`}>
+        {product.image ? (
+          <Image
+            src={product.image.guid!}
+            alt={product.image?.altText || product.title!}
+            height={product.image.mediaDetails?.height!}
+            width={product.image.mediaDetails?.width!}
+          />
+        ) : (
+          <Image
+            src={NoImage.src}
+            alt={product.title || ""}
+            width={NoImage.width}
+            height={NoImage.height}
+          />
+        )}
+      </div>
       <div className={`px-4 pb-4`}>
         <p
           className={`text-lg text-gray-800 mb-2 leading-normal h-13.5 overflow-y-hidden`}
