@@ -32,7 +32,7 @@ function PopularCategories() {
     });
   }
 
-  const { data, loading } = useQuery(GetCategoriesDocument, {
+  const { data, loading, error } = useQuery(GetCategoriesDocument, {
     variables: {
       first: count,
       childless: true,
@@ -41,6 +41,11 @@ function PopularCategories() {
     },
   });
   if (loading) return <Loading />;
+  if (error) {
+    console.log(error);
+    return <p>error</p>;
+  }
+  console.log(data);
   return (
     <div className={`xl:py-45 lg:py-37.5 py-20  container mx-auto`}>
       <p className={`text-center text-4.8xl font-black mb-15`}>
