@@ -25,8 +25,7 @@ function TrendingProducts() {
     <ProductsCarousel>
       {data?.products &&
         data.products?.nodes?.map((product) => (
-          <p key={product.id}>{product.slug}</p>
-          // <Product product={product as ProductsType} key={product.id} />
+          <Product product={product as ProductsType} key={product.id} />
         ))}
     </ProductsCarousel>
   );
