@@ -24,12 +24,12 @@ export default async function Home() {
 
       <Trending />
       <Sale />
-      <AppMobile />
-      <Info />
-      <Instagram />
-      <Blog />
-      <Brands />
-      <Subscribe />
+      {/*<AppMobile />*/}
+      {/*<Info />*/}
+      {/*<Instagram />*/}
+      {/*<Blog />*/}
+      {/*<Brands />*/}
+      {/*<Subscribe />*/}
     </div>
   );
 }
