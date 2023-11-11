@@ -1,17 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Button } from "@material-tailwind/react";
-import { HeaderMenu } from "@/components/header/HeaderMenu";
-import { TMenu } from "@/api";
-import { MainMenu } from "@/components/header/MainMenu";
 
 type Props = {
-  menuItemsHeader?: TMenu[];
-  loadingHeader: boolean;
-  classNameHeader?: string;
-  className?: string;
-  mainMenuItems?: TMenu[];
-  mainMenuLoading: boolean;
+  children: ReactNode;
+  className: string;
 };
 function MobileMenu(props: Props) {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,23 +36,7 @@ function MobileMenu(props: Props) {
           isOpen ? "right-0" : "-right-full"
         } bg-gray-900 bg-opacity-90 z-20 `}
       >
-        <nav>
-          <HeaderMenu
-            loading={props.loadingHeader}
-            menuItems={props.menuItemsHeader}
-            className={`${
-              props.classNameHeader || ""
-            } flex-col text-white text-xl`}
-            classNameItem={`mb-4`}
-          />
-          <hr className={`mb-5`} />
-          <MainMenu
-            menuItems={props.mainMenuItems}
-            loading={props.mainMenuLoading}
-            classNameWrap={`flex-col text-lg text-white`}
-            itemClassName={`text-lg text-white mb-4`}
-          />
-        </nav>
+        <nav>{props.children}</nav>
       </div>
     </div>
   );

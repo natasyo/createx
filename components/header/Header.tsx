@@ -9,7 +9,7 @@ import SearchInput from "@/components/ui/SearchInput";
 import { HeaderBottom } from "@/components/header/HeaderBottom";
 import MobileMenu from "@/components/header/MobileMenu";
 
-export default async function Header() {
+export async function Header() {
   const { menu, loading } = await getHeaderMenu("17");
   const mainMenu = await getHeaderMenu("656");
   return (
@@ -30,13 +30,21 @@ export default async function Header() {
           />
           <div className={`flex items-center`}>
             <AuthButton />
-            <MobileMenu
-              loadingHeader={loading}
-              menuItemsHeader={menu}
-              className={`lg:hidden`}
-              mainMenuItems={mainMenu.menu}
-              mainMenuLoading={mainMenu.loading}
-            />
+            <MobileMenu className={`lg:hidden`}>
+              <HeaderMenu
+                loading={loading}
+                menuItems={menu}
+                className={`flex-col text-white text-xl`}
+                classNameItem={`mb-4`}
+              />
+              <hr className={`mb-5`} />
+              <MainMenu
+                menuItems={mainMenu.menu}
+                loading={mainMenu.loading}
+                classNameWrap={`flex-col text-lg text-white`}
+                itemClassName={`text-lg text-white mb-4`}
+              />
+            </MobileMenu>
           </div>
         </div>
       </div>

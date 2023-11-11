@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import Header from "@/components/header/Header";
+import { Header } from "@/components/header/Header";
 import React from "react";
 import ReduxProvider from "@/store/ReduxProvider";
 import { Login } from "@/components/auth/Login";
