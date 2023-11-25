@@ -53,7 +53,10 @@ function PopularCategories() {
       </p>
       <div className={`flex justify-center`}>
         {data?.productCategories?.nodes?.map((category) => (
-          <PopularCategory category={category} key={category.id} />
+          <PopularCategory
+            category={category}
+            key={`${category.id}_${category.name}`}
+          />
         ))}
       </div>
     </div>

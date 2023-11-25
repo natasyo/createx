@@ -1,5 +1,11 @@
-query GetProducts($first: Int, $onSale: Boolean = false, $orderby: [ProductsOrderbyInput]) {
-    products(first: $first, where: {onSale: $onSale, orderby: $orderby}) {
+query GetProducts($onSale: Boolean = false, $orderby: [ProductsOrderbyInput], $last: Int, $first: Int, $before: String , $after: String) {
+    products(
+        where: {onSale: $onSale, orderby: $orderby}
+        last: $last
+        before: $before
+        first: $first
+        after: $after
+    ) {
         nodes {
             name
             sku
@@ -11,6 +17,7 @@ query GetProducts($first: Int, $onSale: Boolean = false, $orderby: [ProductsOrde
                 uri
                 price
                 salePrice
+                regularPrice
             }
             image {
                 mediaDetails {
@@ -26,6 +33,12 @@ query GetProducts($first: Int, $onSale: Boolean = false, $orderby: [ProductsOrde
             }
             type
             onSale
+        }
+        pageInfo {
+            endCursor
+            hasNextPage
+            hasPreviousPage
+            startCursor
         }
     }
 }

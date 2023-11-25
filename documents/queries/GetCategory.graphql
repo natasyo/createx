@@ -1,0 +1,39 @@
+query GetCategory($id: ID!, $idType: ProductCategoryIdType, $after: String , $before: String, $first: Int, $last: Int ) {
+    productCategory(id: $id, idType: $idType) {
+        products(after: $after, first: $first, before: $before, last: $last) {
+            nodes {
+                name
+                sku
+                slug
+                id
+                ... on SimpleProduct {
+                    id
+                    name
+                    uri
+                    price
+                    salePrice
+                }
+                image {
+                    mediaDetails {
+                        height
+                        width
+                    }
+                    guid
+                    parent {
+                        node {
+                            id
+                        }
+                    }
+                }
+                type
+                onSale
+            }
+            pageInfo {
+                endCursor
+                hasNextPage
+                hasPreviousPage
+                startCursor
+            }
+        }
+    }
+}

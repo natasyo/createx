@@ -1,6 +1,7 @@
 import React from "react";
 import { GetCategoriesQuery } from "@/generatesTypes/gql/graphql";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   category: NonNullable<
@@ -22,9 +23,12 @@ export function Category({ category }: Props) {
           />
         )}
       </div>
-      <p className={`text-center text-xl font-bold text-gray-800`}>
+      <Link
+        href={category.uri!}
+        className={`text-center text-xl font-bold text-gray-800`}
+      >
         {category.name}
-      </p>
+      </Link>
     </div>
   );
 }

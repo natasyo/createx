@@ -1,11 +1,10 @@
-mutation registerUser($input: RegisterUserInput!) {
-    registerUser(input: $input) {
-        clientMutationId
+mutation RegisterUser($email: String, $firstName: String, $username: String!, $password: String ) {
+    registerUser(
+        input: {username: $username, email: $email, firstName: $firstName, password: $password}
+    ) {
         user {
-            name
-            slug
+            id
             username
-            userId
         }
     }
 }

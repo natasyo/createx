@@ -11,6 +11,7 @@ type Props = {
   errorMessages?: string;
   className?: string;
   classNameInput?: string;
+  disabled?: boolean;
 };
 
 export const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -42,6 +43,7 @@ export const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
             onBlur={props.onBlur}
             name={props.name}
             ref={ref}
+            disabled={props.disabled}
           />
           <button
             className={`absolute top-4 right-4 cursor-pointer`}
@@ -74,7 +76,7 @@ export const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
         <input
           type={props.type}
           defaultValue={props.defaultValue}
-          className={`placeholder-gray-600 text-sm py-3 px-4 w-full  border border-solid
+          className={`disabled:opacity-40 placeholder-gray-600 text-sm py-3 px-4 w-full  border border-solid 
            ${
              props.errorMessages && props.errorMessages.length > 0
                ? "border-red-400"
@@ -88,6 +90,7 @@ export const TextBox = forwardRef<HTMLInputElement, Props>((props, ref) => {
           onChange={props.onChange}
           onBlur={props.onBlur}
           ref={ref}
+          disabled={props.disabled}
         />
       )}
       {props.errorMessages && (

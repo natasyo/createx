@@ -7,7 +7,7 @@ export function Banner() {
   return (
     <CarouselWrap>
       <div
-        style={{ backgroundImage: "url(banner.png)" }}
+        style={{ backgroundImage: `url(banner.png)` }}
         className={`bg-no-repeat xl:h-200 lg:h-150 h-125 xl:pt-35 lg:pt-30 sm:pt-25 text-gray-900 bg-cover bg-center`}
       >
         <div className={`container mx-auto px-3`}>

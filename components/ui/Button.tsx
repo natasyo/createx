@@ -8,6 +8,7 @@ type Props = {
   className?: string;
   typeColor?: "basicOutline" | "basic";
   href?: string;
+  disabled?: boolean;
 };
 export function Button(props: Props) {
   if (props.href) {
@@ -39,7 +40,9 @@ export function Button(props: Props) {
         } ${
           props.typeColor === "basicOutline" &&
           "bg-transparent text-green-800 hover:bg-green-800 active:bg-green-800 hover:text-white active:text-white"
-        } rounded mb-6 capitalize px-8 text-sm font-bold  border border-solid border-green-800 h-13 inline-flex items-center justify-center`}
+        } 
+        disabled:opacity-40 rounded mb-6 capitalize px-8 text-sm font-bold  border border-solid border-green-800 h-13 inline-flex items-center justify-center`}
+        disabled={props.disabled}
       >
         {props.children}
       </button>

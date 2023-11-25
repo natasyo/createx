@@ -55,7 +55,7 @@ function Product({ product, className }: Props) {
               className={`mr-3 text-red-400 text-2xl`}
             />
             <span
-              dangerouslySetInnerHTML={{ __html: product.price || "" }}
+              dangerouslySetInnerHTML={{ __html: product.regularPrice || "" }}
               className={`line-through text-lg text-gray-700`}
             />
           </p>

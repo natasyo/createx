@@ -3760,6 +3760,10 @@ export type CreateVisibleProductPayload = {
 /** A customer object */
 export type Customer = Node & {
   __typename?: "Customer";
+  /** A nonce for the account page. By default, it expires in 1 hour. */
+  accountNonce?: Maybe<Scalars["String"]["output"]>;
+  /** A nonce link to the account page for session user. Expires in 24 hours. */
+  accountUrl?: Maybe<Scalars["String"]["output"]>;
   /** Customer&#039;s stored payment tokens. */
   availablePaymentMethods?: Maybe<Array<Maybe<PaymentToken>>>;
   /** Customer&#039;s stored payment tokens. */
@@ -3770,6 +3774,14 @@ export type Customer = Node & {
   billing?: Maybe<CustomerAddress>;
   /** Has customer calculated shipping? */
   calculatedShipping?: Maybe<Scalars["Boolean"]["output"]>;
+  /** A nonce for the cart page. By default, it expires in 1 hour. */
+  cartNonce?: Maybe<Scalars["String"]["output"]>;
+  /** A nonced link to the cart page. By default, it expires in 1 hour. */
+  cartUrl?: Maybe<Scalars["String"]["output"]>;
+  /** A nonce for the checkout page. By default, it expires in 1 hour. */
+  checkoutNonce?: Maybe<Scalars["String"]["output"]>;
+  /** A nonce link to the checkout page for session user. Expires in 24 hours. */
+  checkoutUrl?: Maybe<Scalars["String"]["output"]>;
   /** The ID of the customer in the database */
   databaseId?: Maybe<Scalars["Int"]["output"]>;
   /** Return the date customer was created */
@@ -4718,11 +4730,23 @@ export type EmptyCartPayload = {
 
 /** Asset enqueued by the CMS */
 export type EnqueuedAsset = {
-  /** @todo */
+  /** The inline code to be run after the asset is loaded. */
+  after?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
+  /**
+   * Deprecated
+   * @deprecated Use `EnqueuedAsset.media` instead.
+   */
   args?: Maybe<Scalars["Boolean"]["output"]>;
+  /** The inline code to be run before the asset is loaded. */
+  before?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
+  /** The HTML conditional comment for the enqueued asset. E.g. IE 6, lte IE 7, etc */
+  conditional?: Maybe<Scalars["String"]["output"]>;
   /** Dependencies needed to use this asset */
-  dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
-  /** Extra information needed for the script */
+  dependencies?: Maybe<Array<Maybe<EnqueuedAsset>>>;
+  /**
+   * Extra information needed for the script
+   * @deprecated Use `EnqueuedScript.extraData` instead.
+   */
   extra?: Maybe<Scalars["String"]["output"]>;
   /** The handle of the enqueued asset */
   handle?: Maybe<Scalars["String"]["output"]>;
@@ -4738,19 +4762,35 @@ export type EnqueuedAsset = {
 export type EnqueuedScript = EnqueuedAsset &
   Node & {
     __typename?: "EnqueuedScript";
-    /** @todo */
+    /** The inline code to be run after the asset is loaded. */
+    after?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
+    /**
+     * Deprecated
+     * @deprecated Use `EnqueuedAsset.media` instead.
+     */
     args?: Maybe<Scalars["Boolean"]["output"]>;
+    /** The inline code to be run before the asset is loaded. */
+    before?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
+    /** The HTML conditional comment for the enqueued asset. E.g. IE 6, lte IE 7, etc */
+    conditional?: Maybe<Scalars["String"]["output"]>;
     /** Dependencies needed to use this asset */
     dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
-    /** Extra information needed for the script */
+    /**
+     * Extra information needed for the script
+     * @deprecated Use `EnqueuedScript.extraData` instead.
+     */
     extra?: Maybe<Scalars["String"]["output"]>;
+    /** Extra data supplied to the enqueued script */
+    extraData?: Maybe<Scalars["String"]["output"]>;
     /** The handle of the enqueued asset */
     handle?: Maybe<Scalars["String"]["output"]>;
-    /** The ID of the enqueued asset */
+    /** The global ID of the enqueued script */
     id: Scalars["ID"]["output"];
     /** The source of the asset */
     src?: Maybe<Scalars["String"]["output"]>;
-    /** The version of the enqueued asset */
+    /** The loading strategy to use on the script tag */
+    strategy?: Maybe<ScriptLoadingStrategyEnum>;
+    /** The version of the enqueued script */
     version?: Maybe<Scalars["String"]["output"]>;
   };
 
@@ -4788,19 +4828,43 @@ export type EnqueuedScriptConnectionPageInfo = {
 export type EnqueuedStylesheet = EnqueuedAsset &
   Node & {
     __typename?: "EnqueuedStylesheet";
-    /** @todo */
+    /** The inline code to be run after the asset is loaded. */
+    after?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
+    /**
+     * Deprecated
+     * @deprecated Use `EnqueuedAsset.media` instead.
+     */
     args?: Maybe<Scalars["Boolean"]["output"]>;
+    /** The inline code to be run before the asset is loaded. */
+    before?: Maybe<Array<Maybe<Scalars["String"]["output"]>>>;
+    /** The HTML conditional comment for the enqueued asset. E.g. IE 6, lte IE 7, etc */
+    conditional?: Maybe<Scalars["String"]["output"]>;
     /** Dependencies needed to use this asset */
-    dependencies?: Maybe<Array<Maybe<EnqueuedScript>>>;
-    /** Extra information needed for the script */
+    dependencies?: Maybe<Array<Maybe<EnqueuedStylesheet>>>;
+    /**
+     * Extra information needed for the script
+     * @deprecated Use `EnqueuedScript.extraData` instead.
+     */
     extra?: Maybe<Scalars["String"]["output"]>;
     /** The handle of the enqueued asset */
     handle?: Maybe<Scalars["String"]["output"]>;
-    /** The ID of the enqueued asset */
+    /** The global ID of the enqueued stylesheet */
     id: Scalars["ID"]["output"];
+    /** Whether the enqueued style is RTL or not */
+    isRtl?: Maybe<Scalars["Boolean"]["output"]>;
+    /** The media attribute to use for the link */
+    media?: Maybe<Scalars["String"]["output"]>;
+    /** The absolute path to the enqueued style. Set when the stylesheet is meant to load inline. */
+    path?: Maybe<Scalars["String"]["output"]>;
+    /** The `rel` attribute to use for the link */
+    rel?: Maybe<Scalars["String"]["output"]>;
     /** The source of the asset */
     src?: Maybe<Scalars["String"]["output"]>;
-    /** The version of the enqueued asset */
+    /** Optional suffix, used in combination with RTL */
+    suffix?: Maybe<Scalars["String"]["output"]>;
+    /** The title of the enqueued style. Used for preferred/alternate stylesheets. */
+    title?: Maybe<Scalars["String"]["output"]>;
+    /** The version of the enqueued style */
     version?: Maybe<Scalars["String"]["output"]>;
   };
 
@@ -14747,6 +14811,8 @@ export enum ProductTypesEnum {
   Grouped = "GROUPED",
   /** A simple product */
   Simple = "SIMPLE",
+  /** An unsupported product */
+  Unsupported = "UNSUPPORTED",
   /** A variable product */
   Variable = "VARIABLE",
   /** A product variation */
@@ -16529,6 +16595,11 @@ export type RootQuery = {
   theme?: Maybe<Theme>;
   /** Connection between the RootQuery type and the Theme type */
   themes?: Maybe<RootQueryToThemeConnection>;
+  /**
+   * A unsupported product object
+   * @deprecated Use &quot;product&quot; instead.
+   */
+  unsupportedProduct?: Maybe<UnsupportedProduct>;
   /** Returns a user */
   user?: Maybe<User>;
   /** Returns a user role */
@@ -17090,6 +17161,12 @@ export type RootQueryThemesArgs = {
   before?: InputMaybe<Scalars["String"]["input"]>;
   first?: InputMaybe<Scalars["Int"]["input"]>;
   last?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** The root entry point into the Graph */
+export type RootQueryUnsupportedProductArgs = {
+  id?: InputMaybe<Scalars["ID"]["input"]>;
+  idType?: InputMaybe<ProductIdTypeEnum>;
 };
 
 /** The root entry point into the Graph */
@@ -19512,6 +19589,14 @@ export type RootQueryToVisibleProductConnectionWhereArgs = {
   updateTermMetaCache?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
+/** The strategy to use when loading the script */
+export enum ScriptLoadingStrategyEnum {
+  /** Use the script `async` attribute */
+  Async = "ASYNC",
+  /** Use the script `defer` attribute */
+  Defer = "DEFER",
+}
+
 /** Input for the sendPasswordResetEmail mutation. */
 export type SendPasswordResetEmailInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -21918,6 +22003,442 @@ export type UniformResourceIdentifiable = {
   isTermNode: Scalars["Boolean"]["output"];
   /** The unique resource identifier path */
   uri?: Maybe<Scalars["String"]["output"]>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProduct = ContentNode &
+  DatabaseIdentifier &
+  DownloadableProduct &
+  InventoriedProduct &
+  MenuItemLinkable &
+  Node &
+  NodeWithComments &
+  NodeWithContentEditor &
+  NodeWithExcerpt &
+  NodeWithFeaturedImage &
+  NodeWithTemplate &
+  NodeWithTitle &
+  Previewable &
+  Product &
+  ProductUnion &
+  ProductWithAttributes &
+  ProductWithDimensions &
+  ProductWithPricing &
+  UniformResourceIdentifiable & {
+    __typename?: "UnsupportedProduct";
+    /** Connection between the Product type and the paColor type */
+    allPaColor?: Maybe<ProductToPaColorConnection>;
+    /** Connection between the Product type and the paSize type */
+    allPaSize?: Maybe<ProductToPaSizeConnection>;
+    /** Connection between the Product type and the ProductAttribute type */
+    attributes?: Maybe<ProductToProductAttributeConnection>;
+    /** Product average count */
+    averageRating?: Maybe<Scalars["Float"]["output"]>;
+    /** Product backorders status */
+    backorders?: Maybe<BackordersEnum>;
+    /** Can product be backordered? */
+    backordersAllowed?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Catalog visibility */
+    catalogVisibility?: Maybe<CatalogVisibilityEnum>;
+    /** The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility. */
+    commentCount?: Maybe<Scalars["Int"]["output"]>;
+    /** Whether the comments are open or closed for this particular post. */
+    commentStatus?: Maybe<Scalars["String"]["output"]>;
+    /** Connection between the Product type and the Comment type */
+    comments?: Maybe<ProductToCommentsConnection>;
+    /** The content of the post. */
+    content?: Maybe<Scalars["String"]["output"]>;
+    /** Connection between the ContentNode type and the ContentType type */
+    contentType?: Maybe<ContentNodeToContentTypeConnectionEdge>;
+    /** The name of the Content Type the node belongs to */
+    contentTypeName: Scalars["String"]["output"];
+    /** Product or variation ID */
+    databaseId: Scalars["Int"]["output"];
+    /** Post publishing date. */
+    date?: Maybe<Scalars["String"]["output"]>;
+    /** The publishing date set in GMT. */
+    dateGmt?: Maybe<Scalars["String"]["output"]>;
+    /** Date on sale from */
+    dateOnSaleFrom?: Maybe<Scalars["String"]["output"]>;
+    /** Date on sale to */
+    dateOnSaleTo?: Maybe<Scalars["String"]["output"]>;
+    /** Connection between the ProductWithAttributes type and the VariationAttribute type */
+    defaultAttributes?: Maybe<ProductWithAttributesToVariationAttributeConnection>;
+    /** Product description */
+    description?: Maybe<Scalars["String"]["output"]>;
+    /** The desired slug of the post */
+    desiredSlug?: Maybe<Scalars["String"]["output"]>;
+    /** Download expiry */
+    downloadExpiry?: Maybe<Scalars["Int"]["output"]>;
+    /** Download limit */
+    downloadLimit?: Maybe<Scalars["Int"]["output"]>;
+    /** Is downloadable? */
+    downloadable?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Product downloads */
+    downloads?: Maybe<Array<Maybe<ProductDownload>>>;
+    /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+    editingLockedBy?: Maybe<ContentNodeToEditLockConnectionEdge>;
+    /** The RSS enclosure for the object */
+    enclosure?: Maybe<Scalars["String"]["output"]>;
+    /** Connection between the ContentNode type and the EnqueuedScript type */
+    enqueuedScripts?: Maybe<ContentNodeToEnqueuedScriptConnection>;
+    /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+    enqueuedStylesheets?: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+    /** The excerpt of the post. */
+    excerpt?: Maybe<Scalars["String"]["output"]>;
+    /** If the product is featured */
+    featured?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+    featuredImage?: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+    /** The database identifier for the featured image node assigned to the content node */
+    featuredImageDatabaseId?: Maybe<Scalars["Int"]["output"]>;
+    /** Globally unique ID of the featured image assigned to the node */
+    featuredImageId?: Maybe<Scalars["ID"]["output"]>;
+    /** Connection between the Product type and the MediaItem type */
+    galleryImages?: Maybe<ProductToMediaItemConnection>;
+    /** Connection between the Product type and the GlobalProductAttribute type */
+    globalAttributes?: Maybe<ProductToGlobalProductAttributeConnection>;
+    /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+    guid?: Maybe<Scalars["String"]["output"]>;
+    /** Product&#039;s height */
+    height?: Maybe<Scalars["String"]["output"]>;
+    /** Product or variation global ID */
+    id: Scalars["ID"]["output"];
+    /** Main image */
+    image?: Maybe<MediaItem>;
+    /** Whether the node is a Content Node */
+    isContentNode: Scalars["Boolean"]["output"];
+    /** Whether the object is a node in the preview state */
+    isPreview?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Whether the object is restricted from the current viewer */
+    isRestricted?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Whether the node is a Term */
+    isTermNode: Scalars["Boolean"]["output"];
+    /** The user that most recently edited the node */
+    lastEditedBy?: Maybe<ContentNodeToEditLastConnectionEdge>;
+    /** Product&#039;s length */
+    length?: Maybe<Scalars["String"]["output"]>;
+    /** The permalink of the post */
+    link?: Maybe<Scalars["String"]["output"]>;
+    /** Connection between the Product type and the LocalProductAttribute type */
+    localAttributes?: Maybe<ProductToLocalProductAttributeConnection>;
+    /** Low stock amount */
+    lowStockAmount?: Maybe<Scalars["Int"]["output"]>;
+    /** If product manage stock */
+    manageStock?: Maybe<ManageStockEnum>;
+    /** Menu order */
+    menuOrder?: Maybe<Scalars["Int"]["output"]>;
+    /** Object meta data */
+    metaData?: Maybe<Array<Maybe<MetaData>>>;
+    /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+    modified?: Maybe<Scalars["String"]["output"]>;
+    /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+    modifiedGmt?: Maybe<Scalars["String"]["output"]>;
+    /** Product name */
+    name?: Maybe<Scalars["String"]["output"]>;
+    /** Is product on sale? */
+    onSale?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Connection between the Product type and the Product type */
+    preview?: Maybe<ProductToPreviewConnectionEdge>;
+    /** The database id of the preview node */
+    previewRevisionDatabaseId?: Maybe<Scalars["Int"]["output"]>;
+    /** Whether the object is a node in the preview state */
+    previewRevisionId?: Maybe<Scalars["ID"]["output"]>;
+    /** Product&#039;s active price */
+    price?: Maybe<Scalars["String"]["output"]>;
+    /** Connection between the Product type and the productCategory type */
+    productCategories?: Maybe<ProductToProductCategoryConnection>;
+    /**
+     * The id field matches the WP_Post-&gt;ID field.
+     * @deprecated Deprecated in favor of the databaseId field
+     */
+    productId: Scalars["Int"]["output"];
+    /** Connection between the Product type and the productTag type */
+    productTags?: Maybe<ProductToProductTagConnection>;
+    /** Connection between the Product type and the productType type */
+    productTypes?: Maybe<ProductToProductTypeConnection>;
+    /** Can product be purchased? */
+    purchasable?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Purchase note */
+    purchaseNote?: Maybe<Scalars["String"]["output"]>;
+    /** Product&#039;s regular price */
+    regularPrice?: Maybe<Scalars["String"]["output"]>;
+    /** Connection between the Product type and the ProductUnion type */
+    related?: Maybe<ProductToProductUnionConnection>;
+    /** Product review count */
+    reviewCount?: Maybe<Scalars["Int"]["output"]>;
+    /** Connection between the Product type and the Comment type */
+    reviews?: Maybe<ProductToCommentConnection>;
+    /** If reviews are allowed */
+    reviewsAllowed?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Product&#039;s sale price */
+    salePrice?: Maybe<Scalars["String"]["output"]>;
+    /** shipping class ID */
+    shippingClassId?: Maybe<Scalars["Int"]["output"]>;
+    /** Connection between the Product type and the shippingClass type */
+    shippingClasses?: Maybe<ProductToShippingClassConnection>;
+    /** Does product need to be shipped? */
+    shippingRequired?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Is product shipping taxable? */
+    shippingTaxable?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Product short description */
+    shortDescription?: Maybe<Scalars["String"]["output"]>;
+    /** Product SKU */
+    sku?: Maybe<Scalars["String"]["output"]>;
+    /** Product slug */
+    slug?: Maybe<Scalars["String"]["output"]>;
+    /** If should be sold individually */
+    soldIndividually?: Maybe<Scalars["Boolean"]["output"]>;
+    /** The current status of the object */
+    status?: Maybe<Scalars["String"]["output"]>;
+    /** Number of items available for sale */
+    stockQuantity?: Maybe<Scalars["Int"]["output"]>;
+    /** Product stock status */
+    stockStatus?: Maybe<StockStatusEnum>;
+    /** Tax class */
+    taxClass?: Maybe<TaxClassEnum>;
+    /** Tax status */
+    taxStatus?: Maybe<TaxStatusEnum>;
+    /** The template assigned to the node */
+    template?: Maybe<ContentTemplate>;
+    /** Connection between the Product type and the TermNode type */
+    terms?: Maybe<ProductToTermNodeConnection>;
+    /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+    title?: Maybe<Scalars["String"]["output"]>;
+    /** Number total of sales */
+    totalSales?: Maybe<Scalars["Int"]["output"]>;
+    /** Product type */
+    type?: Maybe<ProductTypesEnum>;
+    /** Connection between the Product type and the ProductUnion type */
+    upsell?: Maybe<ProductToUpsellConnection>;
+    /** The unique resource identifier path */
+    uri?: Maybe<Scalars["String"]["output"]>;
+    /** Is product virtual? */
+    virtual?: Maybe<Scalars["Boolean"]["output"]>;
+    /** Connection between the Product type and the visibleProduct type */
+    visibleProducts?: Maybe<ProductToVisibleProductConnection>;
+    /** Product&#039;s weight */
+    weight?: Maybe<Scalars["String"]["output"]>;
+    /** Product&#039;s width */
+    width?: Maybe<Scalars["String"]["output"]>;
+  };
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductAllPaColorArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToPaColorConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductAllPaSizeArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToPaSizeConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductAttributesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToProductAttributeConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductCommentsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToCommentsConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductContentArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductDefaultAttributesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductDescriptionArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductEnqueuedScriptsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductEnqueuedStylesheetsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductExcerptArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductGalleryImagesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToMediaItemConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductGlobalAttributesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductLocalAttributesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductMetaDataArgs = {
+  key?: InputMaybe<Scalars["String"]["input"]>;
+  keysIn?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
+  multiple?: InputMaybe<Scalars["Boolean"]["input"]>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductPreviewArgs = {
+  where?: InputMaybe<ProductToPreviewConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductPriceArgs = {
+  format?: InputMaybe<PricingFieldFormatEnum>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductProductCategoriesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToProductCategoryConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductProductTagsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToProductTagConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductProductTypesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToProductTypeConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductRegularPriceArgs = {
+  format?: InputMaybe<PricingFieldFormatEnum>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductRelatedArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToProductUnionConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductReviewsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToCommentConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductSalePriceArgs = {
+  format?: InputMaybe<PricingFieldFormatEnum>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductShippingClassesArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToShippingClassConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductShortDescriptionArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductTermsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToTermNodeConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductTitleArgs = {
+  format?: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductUpsellArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToUpsellConnectionWhereArgs>;
+};
+
+/** A product object for a product type that is unsupported by the current API. */
+export type UnsupportedProductVisibleProductsArgs = {
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  where?: InputMaybe<ProductToVisibleProductConnectionWhereArgs>;
 };
 
 /** Input for the updateCategory mutation. */
@@ -24687,6 +25208,192 @@ export type GetCategoriesQuery = {
   } | null;
 };
 
+export type GetCategoryQueryVariables = Exact<{
+  id: Scalars["ID"]["input"];
+  idType?: InputMaybe<ProductCategoryIdType>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+}>;
+
+export type GetCategoryQuery = {
+  __typename?: "RootQuery";
+  productCategory?: {
+    __typename?: "ProductCategory";
+    products?: {
+      __typename?: "ProductCategoryToProductConnection";
+      nodes: Array<
+        | {
+            __typename?: "ExternalProduct";
+            name?: string | null;
+            sku?: string | null;
+            slug?: string | null;
+            id: string;
+            type?: ProductTypesEnum | null;
+            onSale?: boolean | null;
+            image?: {
+              __typename?: "MediaItem";
+              guid?: string | null;
+              mediaDetails?: {
+                __typename?: "MediaDetails";
+                height?: number | null;
+                width?: number | null;
+              } | null;
+              parent?: {
+                __typename?: "HierarchicalContentNodeToParentContentNodeConnectionEdge";
+                node:
+                  | { __typename?: "ExternalProduct"; id: string }
+                  | { __typename?: "GroupProduct"; id: string }
+                  | { __typename?: "MediaItem"; id: string }
+                  | { __typename?: "Page"; id: string }
+                  | { __typename?: "Post"; id: string }
+                  | { __typename?: "SimpleProduct"; id: string }
+                  | { __typename?: "SimpleProductVariation"; id: string }
+                  | { __typename?: "UnsupportedProduct"; id: string }
+                  | { __typename?: "VariableProduct"; id: string };
+              } | null;
+            } | null;
+          }
+        | {
+            __typename?: "GroupProduct";
+            name?: string | null;
+            sku?: string | null;
+            slug?: string | null;
+            id: string;
+            type?: ProductTypesEnum | null;
+            onSale?: boolean | null;
+            image?: {
+              __typename?: "MediaItem";
+              guid?: string | null;
+              mediaDetails?: {
+                __typename?: "MediaDetails";
+                height?: number | null;
+                width?: number | null;
+              } | null;
+              parent?: {
+                __typename?: "HierarchicalContentNodeToParentContentNodeConnectionEdge";
+                node:
+                  | { __typename?: "ExternalProduct"; id: string }
+                  | { __typename?: "GroupProduct"; id: string }
+                  | { __typename?: "MediaItem"; id: string }
+                  | { __typename?: "Page"; id: string }
+                  | { __typename?: "Post"; id: string }
+                  | { __typename?: "SimpleProduct"; id: string }
+                  | { __typename?: "SimpleProductVariation"; id: string }
+                  | { __typename?: "UnsupportedProduct"; id: string }
+                  | { __typename?: "VariableProduct"; id: string };
+              } | null;
+            } | null;
+          }
+        | {
+            __typename?: "SimpleProduct";
+            id: string;
+            name?: string | null;
+            uri?: string | null;
+            price?: string | null;
+            salePrice?: string | null;
+            sku?: string | null;
+            slug?: string | null;
+            type?: ProductTypesEnum | null;
+            onSale?: boolean | null;
+            image?: {
+              __typename?: "MediaItem";
+              guid?: string | null;
+              mediaDetails?: {
+                __typename?: "MediaDetails";
+                height?: number | null;
+                width?: number | null;
+              } | null;
+              parent?: {
+                __typename?: "HierarchicalContentNodeToParentContentNodeConnectionEdge";
+                node:
+                  | { __typename?: "ExternalProduct"; id: string }
+                  | { __typename?: "GroupProduct"; id: string }
+                  | { __typename?: "MediaItem"; id: string }
+                  | { __typename?: "Page"; id: string }
+                  | { __typename?: "Post"; id: string }
+                  | { __typename?: "SimpleProduct"; id: string }
+                  | { __typename?: "SimpleProductVariation"; id: string }
+                  | { __typename?: "UnsupportedProduct"; id: string }
+                  | { __typename?: "VariableProduct"; id: string };
+              } | null;
+            } | null;
+          }
+        | {
+            __typename?: "UnsupportedProduct";
+            name?: string | null;
+            sku?: string | null;
+            slug?: string | null;
+            id: string;
+            type?: ProductTypesEnum | null;
+            onSale?: boolean | null;
+            image?: {
+              __typename?: "MediaItem";
+              guid?: string | null;
+              mediaDetails?: {
+                __typename?: "MediaDetails";
+                height?: number | null;
+                width?: number | null;
+              } | null;
+              parent?: {
+                __typename?: "HierarchicalContentNodeToParentContentNodeConnectionEdge";
+                node:
+                  | { __typename?: "ExternalProduct"; id: string }
+                  | { __typename?: "GroupProduct"; id: string }
+                  | { __typename?: "MediaItem"; id: string }
+                  | { __typename?: "Page"; id: string }
+                  | { __typename?: "Post"; id: string }
+                  | { __typename?: "SimpleProduct"; id: string }
+                  | { __typename?: "SimpleProductVariation"; id: string }
+                  | { __typename?: "UnsupportedProduct"; id: string }
+                  | { __typename?: "VariableProduct"; id: string };
+              } | null;
+            } | null;
+          }
+        | {
+            __typename?: "VariableProduct";
+            name?: string | null;
+            sku?: string | null;
+            slug?: string | null;
+            id: string;
+            type?: ProductTypesEnum | null;
+            onSale?: boolean | null;
+            image?: {
+              __typename?: "MediaItem";
+              guid?: string | null;
+              mediaDetails?: {
+                __typename?: "MediaDetails";
+                height?: number | null;
+                width?: number | null;
+              } | null;
+              parent?: {
+                __typename?: "HierarchicalContentNodeToParentContentNodeConnectionEdge";
+                node:
+                  | { __typename?: "ExternalProduct"; id: string }
+                  | { __typename?: "GroupProduct"; id: string }
+                  | { __typename?: "MediaItem"; id: string }
+                  | { __typename?: "Page"; id: string }
+                  | { __typename?: "Post"; id: string }
+                  | { __typename?: "SimpleProduct"; id: string }
+                  | { __typename?: "SimpleProductVariation"; id: string }
+                  | { __typename?: "UnsupportedProduct"; id: string }
+                  | { __typename?: "VariableProduct"; id: string };
+              } | null;
+            } | null;
+          }
+      >;
+      pageInfo: {
+        __typename?: "ProductCategoryToProductConnectionPageInfo";
+        endCursor?: string | null;
+        hasNextPage: boolean;
+        hasPreviousPage: boolean;
+        startCursor?: string | null;
+      };
+    } | null;
+  } | null;
+};
+
 export type GetHeaderMenuQueryVariables = Exact<{
   id: Scalars["ID"]["input"];
 }>;
@@ -24761,11 +25468,14 @@ export type GetPostsQuery = {
 };
 
 export type GetProductsQueryVariables = Exact<{
-  first?: InputMaybe<Scalars["Int"]["input"]>;
   onSale?: InputMaybe<Scalars["Boolean"]["input"]>;
   orderby?: InputMaybe<
     Array<InputMaybe<ProductsOrderbyInput>> | InputMaybe<ProductsOrderbyInput>
   >;
+  last?: InputMaybe<Scalars["Int"]["input"]>;
+  first?: InputMaybe<Scalars["Int"]["input"]>;
+  before?: InputMaybe<Scalars["String"]["input"]>;
+  after?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type GetProductsQuery = {
@@ -24799,6 +25509,7 @@ export type GetProductsQuery = {
                 | { __typename?: "Post"; id: string }
                 | { __typename?: "SimpleProduct"; id: string }
                 | { __typename?: "SimpleProductVariation"; id: string }
+                | { __typename?: "UnsupportedProduct"; id: string }
                 | { __typename?: "VariableProduct"; id: string };
             } | null;
           } | null;
@@ -24829,6 +25540,7 @@ export type GetProductsQuery = {
                 | { __typename?: "Post"; id: string }
                 | { __typename?: "SimpleProduct"; id: string }
                 | { __typename?: "SimpleProductVariation"; id: string }
+                | { __typename?: "UnsupportedProduct"; id: string }
                 | { __typename?: "VariableProduct"; id: string };
             } | null;
           } | null;
@@ -24840,6 +25552,7 @@ export type GetProductsQuery = {
           uri?: string | null;
           price?: string | null;
           salePrice?: string | null;
+          regularPrice?: string | null;
           sku?: string | null;
           slug?: string | null;
           type?: ProductTypesEnum | null;
@@ -24862,6 +25575,7 @@ export type GetProductsQuery = {
                 | { __typename?: "Post"; id: string }
                 | { __typename?: "SimpleProduct"; id: string }
                 | { __typename?: "SimpleProductVariation"; id: string }
+                | { __typename?: "UnsupportedProduct"; id: string }
                 | { __typename?: "VariableProduct"; id: string };
             } | null;
           } | null;
@@ -24892,6 +25606,38 @@ export type GetProductsQuery = {
                 | { __typename?: "Post"; id: string }
                 | { __typename?: "SimpleProduct"; id: string }
                 | { __typename?: "SimpleProductVariation"; id: string }
+                | { __typename?: "UnsupportedProduct"; id: string }
+                | { __typename?: "VariableProduct"; id: string };
+            } | null;
+          } | null;
+        }
+      | {
+          __typename?: "UnsupportedProduct";
+          name?: string | null;
+          sku?: string | null;
+          slug?: string | null;
+          id: string;
+          type?: ProductTypesEnum | null;
+          onSale?: boolean | null;
+          image?: {
+            __typename?: "MediaItem";
+            guid?: string | null;
+            mediaDetails?: {
+              __typename?: "MediaDetails";
+              height?: number | null;
+              width?: number | null;
+            } | null;
+            parent?: {
+              __typename?: "HierarchicalContentNodeToParentContentNodeConnectionEdge";
+              node:
+                | { __typename?: "ExternalProduct"; id: string }
+                | { __typename?: "GroupProduct"; id: string }
+                | { __typename?: "MediaItem"; id: string }
+                | { __typename?: "Page"; id: string }
+                | { __typename?: "Post"; id: string }
+                | { __typename?: "SimpleProduct"; id: string }
+                | { __typename?: "SimpleProductVariation"; id: string }
+                | { __typename?: "UnsupportedProduct"; id: string }
                 | { __typename?: "VariableProduct"; id: string };
             } | null;
           } | null;
@@ -24922,30 +25668,34 @@ export type GetProductsQuery = {
                 | { __typename?: "Post"; id: string }
                 | { __typename?: "SimpleProduct"; id: string }
                 | { __typename?: "SimpleProductVariation"; id: string }
+                | { __typename?: "UnsupportedProduct"; id: string }
                 | { __typename?: "VariableProduct"; id: string };
             } | null;
           } | null;
         }
     >;
+    pageInfo: {
+      __typename?: "RootQueryToProductUnionConnectionPageInfo";
+      endCursor?: string | null;
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+    };
   } | null;
 };
 
 export type RegisterUserMutationVariables = Exact<{
-  input: RegisterUserInput;
+  email?: InputMaybe<Scalars["String"]["input"]>;
+  firstName?: InputMaybe<Scalars["String"]["input"]>;
+  username: Scalars["String"]["input"];
+  password?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type RegisterUserMutation = {
   __typename?: "RootMutation";
   registerUser?: {
     __typename?: "RegisterUserPayload";
-    clientMutationId?: string | null;
-    user?: {
-      __typename?: "User";
-      name?: string | null;
-      slug?: string | null;
-      username?: string | null;
-      userId?: number | null;
-    } | null;
+    user?: { __typename?: "User"; id: string; username?: string | null } | null;
   } | null;
 };
 
@@ -25135,6 +25885,295 @@ export const GetCategoriesDocument = {
     },
   ],
 } as unknown as DocumentNode<GetCategoriesQuery, GetCategoriesQueryVariables>;
+export const GetCategoryDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetCategory" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "ID" } },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "idType" },
+          },
+          type: {
+            kind: "NamedType",
+            name: { kind: "Name", value: "ProductCategoryIdType" },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "after" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "before" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "first" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "last" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "productCategory" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "idType" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "idType" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "products" },
+                  arguments: [
+                    {
+                      kind: "Argument",
+                      name: { kind: "Name", value: "after" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "after" },
+                      },
+                    },
+                    {
+                      kind: "Argument",
+                      name: { kind: "Name", value: "first" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "first" },
+                      },
+                    },
+                    {
+                      kind: "Argument",
+                      name: { kind: "Name", value: "before" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "before" },
+                      },
+                    },
+                    {
+                      kind: "Argument",
+                      name: { kind: "Name", value: "last" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "last" },
+                      },
+                    },
+                  ],
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "nodes" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "name" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "sku" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "slug" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "id" },
+                            },
+                            {
+                              kind: "InlineFragment",
+                              typeCondition: {
+                                kind: "NamedType",
+                                name: { kind: "Name", value: "SimpleProduct" },
+                              },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "id" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "name" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "uri" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "price" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "salePrice" },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "image" },
+                              selectionSet: {
+                                kind: "SelectionSet",
+                                selections: [
+                                  {
+                                    kind: "Field",
+                                    name: {
+                                      kind: "Name",
+                                      value: "mediaDetails",
+                                    },
+                                    selectionSet: {
+                                      kind: "SelectionSet",
+                                      selections: [
+                                        {
+                                          kind: "Field",
+                                          name: {
+                                            kind: "Name",
+                                            value: "height",
+                                          },
+                                        },
+                                        {
+                                          kind: "Field",
+                                          name: {
+                                            kind: "Name",
+                                            value: "width",
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "guid" },
+                                  },
+                                  {
+                                    kind: "Field",
+                                    name: { kind: "Name", value: "parent" },
+                                    selectionSet: {
+                                      kind: "SelectionSet",
+                                      selections: [
+                                        {
+                                          kind: "Field",
+                                          name: { kind: "Name", value: "node" },
+                                          selectionSet: {
+                                            kind: "SelectionSet",
+                                            selections: [
+                                              {
+                                                kind: "Field",
+                                                name: {
+                                                  kind: "Name",
+                                                  value: "id",
+                                                },
+                                              },
+                                            ],
+                                          },
+                                        },
+                                      ],
+                                    },
+                                  },
+                                ],
+                              },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "type" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "onSale" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "pageInfo" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "endCursor" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "hasNextPage" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "hasPreviousPage" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "startCursor" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetCategoryQuery, GetCategoryQueryVariables>;
 export const GetHeaderMenuDocument = {
   kind: "Document",
   definitions: [
@@ -25450,14 +26489,6 @@ export const GetProductsDocument = {
           kind: "VariableDefinition",
           variable: {
             kind: "Variable",
-            name: { kind: "Name", value: "first" },
-          },
-          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
-        },
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
             name: { kind: "Name", value: "onSale" },
           },
           type: { kind: "NamedType", name: { kind: "Name", value: "Boolean" } },
@@ -25477,6 +26508,35 @@ export const GetProductsDocument = {
             },
           },
         },
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "last" } },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "first" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "Int" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "before" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "after" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -25485,14 +26545,6 @@ export const GetProductsDocument = {
             kind: "Field",
             name: { kind: "Name", value: "products" },
             arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "first" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "first" },
-                },
-              },
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "where" },
@@ -25516,6 +26568,38 @@ export const GetProductsDocument = {
                       },
                     },
                   ],
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "last" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "last" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "before" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "before" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "first" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "first" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "after" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "after" },
                 },
               },
             ],
@@ -25560,6 +26644,10 @@ export const GetProductsDocument = {
                             {
                               kind: "Field",
                               name: { kind: "Name", value: "salePrice" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "regularPrice" },
                             },
                           ],
                         },
@@ -25624,6 +26712,31 @@ export const GetProductsDocument = {
                     ],
                   },
                 },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "pageInfo" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endCursor" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "hasNextPage" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "hasPreviousPage" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "startCursor" },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -25638,21 +26751,45 @@ export const RegisterUserDocument = {
     {
       kind: "OperationDefinition",
       operation: "mutation",
-      name: { kind: "Name", value: "registerUser" },
+      name: { kind: "Name", value: "RegisterUser" },
       variableDefinitions: [
         {
           kind: "VariableDefinition",
           variable: {
             kind: "Variable",
-            name: { kind: "Name", value: "input" },
+            name: { kind: "Name", value: "email" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "firstName" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "username" },
           },
           type: {
             kind: "NonNullType",
             type: {
               kind: "NamedType",
-              name: { kind: "Name", value: "RegisterUserInput" },
+              name: { kind: "Name", value: "String" },
             },
           },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "password" },
+          },
+          type: { kind: "NamedType", name: { kind: "Name", value: "String" } },
         },
       ],
       selectionSet: {
@@ -25666,8 +26803,41 @@ export const RegisterUserDocument = {
                 kind: "Argument",
                 name: { kind: "Name", value: "input" },
                 value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "input" },
+                  kind: "ObjectValue",
+                  fields: [
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "username" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "username" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "email" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "email" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "firstName" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "firstName" },
+                      },
+                    },
+                    {
+                      kind: "ObjectField",
+                      name: { kind: "Name", value: "password" },
+                      value: {
+                        kind: "Variable",
+                        name: { kind: "Name", value: "password" },
+                      },
+                    },
+                  ],
                 },
               },
             ],
@@ -25676,23 +26846,14 @@ export const RegisterUserDocument = {
               selections: [
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "clientMutationId" },
-                },
-                {
-                  kind: "Field",
                   name: { kind: "Name", value: "user" },
                   selectionSet: {
                     kind: "SelectionSet",
                     selections: [
-                      { kind: "Field", name: { kind: "Name", value: "name" } },
-                      { kind: "Field", name: { kind: "Name", value: "slug" } },
+                      { kind: "Field", name: { kind: "Name", value: "id" } },
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "username" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "userId" },
                       },
                     ],
                   },

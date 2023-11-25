@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TextBox } from "@/components/ui/TextBox";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
@@ -8,6 +8,8 @@ import { Modal } from "@/components/ui/Modal";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { modalToggle } from "@/store/Modals/UserModalSlice";
 import AuthSocials from "@/components/auth/AuthSocials";
+import { useMutation } from "@apollo/client";
+import { RegisterUserDocument } from "@/generatesTypes/gql/graphql";
 
 type RegisterFormData = {
   fullName: string;
@@ -26,10 +28,42 @@ export function Register() {
     getValues,
     setValue,
     formState: { errors },
-  } = useForm<RegisterFormData>();
+    reset,
+  } = useForm<RegisterFormData>({
+    defaultValues: {
+      remember: false,
+      password: "",
+      email: "",
+      confirmPassword: "",
+      fullName: "",
+    },
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [addTodo, { data, loading }] = useMutation(RegisterUserDocument);
   const sendForm: SubmitHandler<FieldValues> = (dataInput) => {
-    console.log(dataInput);
+    (async () => {
+      await addTodo({
+        variables: {
+          email: dataInput.email,
+          password: dataInput.password,
+          firstName: dataInput.fullName,
+          username: dataInput.email,
+        },
+      });
+    })();
   };
+  useEffect(() => {
+    if (loading) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+    if (data?.registerUser) {
+      reset();
+      dispatch(modalToggle({ registerModal: false, loginModal: true }));
+    }
+  }, [data, reset, loading]);
+
   const dispatch = useAppDispatch();
   return (
     <Modal open={isShow}>
@@ -64,6 +98,7 @@ export function Register() {
             type={"text"}
             label={"Full Name"}
             placeholder={`Your full name`}
+            disabled={isLoading}
             {...register("fullName", {
               required: {
                 value: true,
@@ -80,6 +115,7 @@ export function Register() {
             label={"Email"}
             type={"text"}
             placeholder={"Your working email"}
+            disabled={isLoading}
             {...register("email", {
               required: {
                 value: true,
@@ -98,6 +134,7 @@ export function Register() {
             label={`Password`}
             type={"password"}
             placeholder={"Your password"}
+            disabled={isLoading}
             {...register("password", {
               required: {
                 value: true,
@@ -120,6 +157,7 @@ export function Register() {
             label={`Confirm Password`}
             type={"password"}
             placeholder={"Confirm your password"}
+            disabled={isLoading}
             {...register("confirmPassword", {
               required: {
                 value: true,
@@ -141,7 +179,7 @@ export function Register() {
             value={"remember"}
             onChange={(event) => setValue("remember", event.target.checked)}
           />
-          <Button type={"submit"} className={"w-full"}>
+          <Button type={"submit"} className={"w-full"} disabled={isLoading}>
             Sign up
           </Button>
           <p className={`text-gray-800`}>
